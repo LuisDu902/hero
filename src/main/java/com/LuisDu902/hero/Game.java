@@ -2,6 +2,8 @@ package com.LuisDu902.hero;
 
 import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.TextCharacter;
+import com.googlecode.lanterna.input.KeyStroke;
+import com.googlecode.lanterna.input.KeyType;
 import com.googlecode.lanterna.screen.Screen;
 import com.googlecode.lanterna.screen.TerminalScreen;
 import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
@@ -11,13 +13,12 @@ import java.io.IOException;
 
 public class Game {
     private Screen screen;
+    private int x = 10;
+    private int y = 10;
 
     public Game() throws IOException {
         try {
-            TerminalSize terminalSize = new TerminalSize(40, 20);
-
-            DefaultTerminalFactory terminalFactory = new DefaultTerminalFactory().setInitialTerminalSize(terminalSize);
-            Terminal terminal = terminalFactory.createTerminal();
+            Terminal terminal = new DefaultTerminalFactory().createTerminal();
             screen = new TerminalScreen(terminal);
             screen.setCursorPosition(null);
             screen.startScreen();
@@ -29,11 +30,34 @@ public class Game {
 
     private void draw() throws IOException {
         screen.clear();
-        screen.setCharacter(10, 10, TextCharacter.fromCharacter('X')[0]);
+        screen.setCharacter(x, y, TextCharacter.fromCharacter('X')[0]);
         screen.refresh();
     }
+    private void processKey(KeyStroke key) throws IOException{
+        System.out.println(key);
+        switch (key.getKeyType()) {
+            case ArrowUp -> y--;
+            case ArrowDown -> y++;
+            case ArrowLeft -> x--;
+            case ArrowRight -> x++;
+            case Character -> {
+                if (key.getCharacter() == 'q') screen.close();
+            }
+        }
+        }
 
     public void run() throws IOException {
-        draw();
+        try {
+            while (true) {
+                draw();
+                KeyStroke key = screen.readInput();
+                processKey(key);
+                if (key.getKeyType() == KeyType.EOF) break;
+            }
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
     }
+
 }
