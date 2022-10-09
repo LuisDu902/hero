@@ -13,10 +13,13 @@ public class Arena {
     private Hero hero;
 
     private List<Wall> walls;
+
+    private List<Coin> coins;
     public Arena(int width,int height){
         this.width = width;
         this.height = height;
         this.walls = createWalls();
+        this.coins = createCoins();
         hero = new Hero(10,10);
     }
     public void draw(TextGraphics graphics) {
@@ -26,10 +29,14 @@ public class Arena {
 
         for (Wall wall : walls)
             wall.draw(graphics);
+
+        for (Coin coin : coins)
+            coin.draw(graphics);
     }
     public void moveHero(Position position) {
         if (canHeroMove(position))
             hero.setPosition(position);
+        retrieveCoins();
     }
     private boolean canHeroMove(Position position){
         return (position.getX() >= 0 && position.getX() < width) &&
@@ -37,6 +44,15 @@ public class Arena {
                 (!walls.contains(new Wall(position.getX(), position.getY())));
     }
 
+    private void retrieveCoins(){
+        for (Coin coin : coins){
+            if (coin.getPosition().equals(hero.getPosition())){
+                System.out.println(":(");
+                coins.remove(coin);
+                break;
+            }
+        }
+    }
     public Position moveUp(){
         return new Position(hero.getPosition().getX(), hero.getPosition().getY() - 1);
     }
@@ -63,4 +79,12 @@ public class Arena {
         return walls;
     }
 
+    private List<Coin> createCoins() {
+        Random random = new Random();
+        ArrayList<Coin> coins = new ArrayList<>();
+        for (int i = 0; i < 5; i++)
+            coins.add(new Coin(random.nextInt(width - 2) + 1,
+                    random.nextInt(height - 2) + 1));
+        return coins;
+    }
 }
