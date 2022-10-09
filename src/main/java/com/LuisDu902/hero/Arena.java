@@ -38,16 +38,16 @@ public class Arena {
     }
 
     public Position moveUp(){
-        return new Position(hero.getX(), hero.getY() - 1);
+        return new Position(hero.getPosition().getX(), hero.getPosition().getY() - 1);
     }
     public Position moveDown(){
-        return new Position(hero.getX(), hero.getY() + 1);
+        return new Position(hero.getPosition().getX(), hero.getPosition().getY() + 1);
     }
     public Position moveLeft(){
-        return new Position(hero.getX() - 1, hero.getY());
+        return new Position(hero.getPosition().getX() - 1, hero.getPosition().getY());
     }
     public Position moveRight(){
-        return new Position(hero.getX() + 1, hero.getY());
+        return new Position(hero.getPosition().getX() + 1, hero.getPosition().getY());
     }
 
     private List<Wall> createWalls() {
