@@ -1,23 +1,26 @@
 package com.LuisDu902.hero;
 
-import com.googlecode.lanterna.TextCharacter;
+import com.googlecode.lanterna.*;
+import com.googlecode.lanterna.graphics.TextGraphics;
 import com.googlecode.lanterna.screen.Screen;
 
-import javax.swing.*;
-
-import static com.googlecode.lanterna.input.KeyType.*;
-
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 public class Arena {
     private int width;
     private int height;
     private Hero hero;
+
     public Arena(int width,int height){
         this.width = width;
         this.height = height;
         hero = new Hero(10,10);
     }
-    public void draw(Screen screen){
-        screen.setCharacter(hero.getX(), hero.getY(), TextCharacter.fromCharacter('X')[0]);
+    public void draw(TextGraphics graphics) {
+        graphics.setBackgroundColor(TextColor.Factory.fromString("#336699"));
+        graphics.fillRectangle(new TerminalPosition(0,0), new TerminalSize(width, height), ' ');
+        hero.draw(graphics);
     }
     public void moveHero(Position position) {
         if (canHeroMove(position))
