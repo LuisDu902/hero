@@ -16,12 +16,4 @@ public class Coin extends Element
         graphics.putString(new TerminalPosition(getPosition().getX(), getPosition().getY()), "O");
     }
 
-    @Override
-    public boolean equals(Object o){
-        if(o == null || this.getClass() != o.getClass()) return false;
-
-        return(this == o ||
-                this.getPosition().equals(((Coin) o).getPosition()));
-
-    }
 }

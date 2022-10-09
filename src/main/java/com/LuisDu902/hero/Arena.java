@@ -65,7 +65,7 @@ public class Arena {
     }
     private void retrieveCoins(){
         for(Coin coin : coins){
-            if(coin.getPosition().equals(hero.getPosition())) {
+            if(coin.getPosition().equal(hero.getPosition())) {
                 coins.remove(coin);
                 break;
             }
@@ -115,7 +115,7 @@ public class Arena {
     }
     public boolean verifyMonsterCollisions(){
         for(Monster monster: monsters){
-            if (monster.getPosition().equals(hero.getPosition())){
+            if (monster.getPosition().equal(hero.getPosition())){
                 System.out.println("Death.");
                 return true;
             }

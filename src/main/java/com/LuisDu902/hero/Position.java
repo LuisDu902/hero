@@ -22,4 +22,10 @@ public class Position {
     public int getX() {
         return x;
     }
+
+    public boolean equal(Position o){
+        if(o == null) return false;
+
+        return(this == o || (x == o.getX() && y == o.getY()));
+    }
 }

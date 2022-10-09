@@ -28,11 +28,4 @@ public class Monster extends Element{
         graphics.enableModifiers(SGR.BOLD);
         graphics.putString(new TerminalPosition(getPosition().getX(), getPosition().getY()), "M");
     }
-    public boolean equals(Object o){
-        if(o == null || this.getClass() != o.getClass()) return false;
-
-        return(this == o ||
-                this.getPosition().equals(((Monster) o).getPosition()));
-
-    }
 }
