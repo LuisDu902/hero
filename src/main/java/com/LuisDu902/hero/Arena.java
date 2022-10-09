@@ -15,11 +15,23 @@ public class Arena {
     private List<Wall> walls;
 
     private List<Coin> coins;
-    public Arena(int width,int height){
+
+    private List<Monster> monsters;
+
+    public int getHeight() {
+        return height;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public Arena(int width, int height){
         this.width = width;
         this.height = height;
-        this.walls = createWalls();
-        this.coins = createCoins();
+        walls = createWalls();
+        coins = createCoins();
+        monsters = createmonsters();
         hero = new Hero(10,10);
     }
     public void draw(TextGraphics graphics) {
@@ -32,6 +44,9 @@ public class Arena {
 
         for (Coin coin : coins)
             coin.draw(graphics);
+
+        for (Monster monster : monsters)
+            monster.draw(graphics);
     }
     public void moveHero(Position position) {
         if (canHeroMove(position))
@@ -43,11 +58,14 @@ public class Arena {
                 (position.getY() >= 0 && position.getY() < height) &&
                 (!walls.contains(new Wall(position.getX(), position.getY())));
     }
-
+    public void moveMonsters(){
+        for (Monster monster : monsters){
+            monster.setPosition(monster.move(this));
+        }
+    }
     private void retrieveCoins(){
-        for (Coin coin : coins){
-            if (coin.getPosition().equals(hero.getPosition())){
-                System.out.println(":(");
+        for(Coin coin : coins){
+            if(coin.getPosition().equals(hero.getPosition())) {
                 coins.remove(coin);
                 break;
             }
@@ -86,5 +104,22 @@ public class Arena {
             coins.add(new Coin(random.nextInt(width - 2) + 1,
                     random.nextInt(height - 2) + 1));
         return coins;
+    }
+    private List<Monster> createmonsters() {
+        Random random = new Random();
+        ArrayList<Monster> monsters = new ArrayList<>();
+        for (int i = 0; i < 5; i++)
+            monsters.add(new Monster(random.nextInt(width - 2) + 1,
+                    random.nextInt(height - 2) + 1));
+        return monsters;
+    }
+    public boolean verifyMonsterCollisions(){
+        for(Monster monster: monsters){
+            if (monster.getPosition().equals(hero.getPosition())){
+                System.out.println("Death.");
+                return true;
+            }
+        }
+        return false;
     }
 }
